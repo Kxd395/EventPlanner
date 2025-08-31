@@ -32,11 +32,27 @@ struct StatusChangeSheet: View {
                 Toggle("Manager Override", isOn: $override)
             }
 
-            HStack { Spacer(); Button("Cancel") { dismiss() }; Button("Confirm") { onConfirm(needsReason ? reason : nil, override); dismiss() }.keyboardShortcut(.defaultAction).disabled(needsReason && reason.trimmingCharacters(in: .whitespaces).isEmpty) }
+            if isNoop {
+                Text("Select a status different from current to enable Confirm.")
+                    .font(.footnote)
+                    .foregroundColor(.secondary)
+            }
+
+            HStack {
+                Spacer()
+                Button("Cancel") { dismiss() }
+                Button("Confirm") {
+                    onConfirm(needsReason ? reason : nil, override)
+                    dismiss()
+                }
+                .keyboardShortcut(.defaultAction)
+                .disabled(isConfirmDisabled)
+            }
         }
         .padding(16)
         .onAppear(perform: recompute)
         .onChange(of: newStatus) { _ in recompute() }
+        .onChange(of: override) { _ in recompute() }
     }
 
     private func recompute() {
@@ -48,6 +64,17 @@ struct StatusChangeSheet: View {
         } catch {
             needsReason = false; needsOverride = false
         }
+    }
+
+    private var isNoop: Bool {
+        guard let cur = current else { return false }
+        return cur == newStatus
+    }
+
+    private var isConfirmDisabled: Bool {
+        if isNoop { return true }
+        if needsReason && reason.trimmingCharacters(in: .whitespaces).isEmpty { return true }
+        return false
     }
 
     private func isEventInProgress(event: EDPCore.EventDTO) -> Bool {
