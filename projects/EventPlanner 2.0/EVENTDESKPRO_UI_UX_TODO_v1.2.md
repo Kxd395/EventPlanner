@@ -20,7 +20,7 @@ Gaps remain where older behaviors linger or where v1.1 features are only partial
   - Accept: Same menu everywhere; file naming `context_YYYY‑MM‑DD_entity.ext`.
 - [ ] Keyboard & a11y polish: `/` search focus, `?` shortcuts overlay, `⌘⇧P` command palette, `1…5` filter tabs; Esc closes modals; VoiceOver labels on chips/buttons.
   - Files: app‑wide Commands in `ContentView.swift`; add a lightweight Shortcuts overlay view.
-  - Accept: Shortcuts listed; VoiceOver reads labels and selected states.
+  - Accept: Shortcuts listed; Attendee filter group is exposed as a tablist; keys 1–5 select tabs (All, Pre‑Reg, Walk‑in, Checked‑In, DNA); Escape dismisses modals; initial focus lands on the primary field/button when sheets open; VoiceOver reads labels and selected states. Each filter selection shows an empty‑state message when no results.
 
 ---
 
@@ -43,18 +43,20 @@ Gaps remain where older behaviors linger or where v1.1 features are only partial
   - Accept: Buttons show only text; counts move to cards/Total label.
 - [ ] Cards grid: two‑column responsive cards; presence dot, name, company/email, status chips, actions (Check‑In, Email, Remove), kebab (⋯) menu.
   - Files: `.../Attendees/AttendeeCard.swift` (updated), `.../Attendees/AttendeeRow.swift` (list)
-  - Accept: Grid adapts; ⋯ shows Undo/Reset/Remove.
+  - Accept: Grid adapts; ⋯ shows Undo/Reset/Remove; shows Member badge (person.crop.circle.badge.checkmark) when linked to a global profile and Event‑only (person.fill.badge.plus) otherwise; VIP star shown independently. Badges have tooltips and VoiceOver labels.
 - [ ] Undo/Reset:
   - [ ] After any status change, show Undo toast (30s) + `⌘Z`.
   - [ ] Kebab Reset Participation… (row + bulk): Revert to previous (pending history), Set Pre‑Registered, Mark Cancelled, Remove (guards honored).
   - Files: `AttendeesView.swift` (toast + undo already present), `ResetParticipationSheet.swift` (added), Status guards in `StatusChangeSheet.swift`.
-  - Accept: Undo reverses latest change; Reset → Pre‑Registered clears timestamps; Remove unlinks; reason required when guard demands it.
+  - Accept: Undo reverses the last mutating status action (global queue) within a 30s window; `⌘Z` maps to Undo Status Change; toast includes a “View Timeline” CTA (stub). Reset → Pre‑Registered clears timestamps; Remove unlinks; reason required when guard demands it.
 - [ ] Change Status modal: Confirm disabled for no‑op; on confirm → VM/FFI → refresh counts → toast; guard DNA during event unless override.
   - Files: `StatusChangeSheet.swift` (updated), `AttendeesView.swift` (applyStatus/bulk path)
   - Accept: Confirm disabled if selecting current; reason needed per rules.
 - [ ] Capacity line & counts visible and live.
   - Files: `AttendeesView.swift` (`CapacityHeaderView`)
   - Accept: Counts change immediately after updates.
+ - [ ] Status chips & primary action contract.
+   - Accept: Chips are exclusive; selected chip = filled, unselected = outline; ✓ appears only when Checked‑In is selected. Primary action reads Check‑In (preRegistered/walkIn), Undo Check‑In (checkedIn), or Revert to Pre‑Registered (dna).
 
 ---
 
@@ -88,7 +90,7 @@ Gaps remain where older behaviors linger or where v1.1 features are only partial
 ## 8) Settings — Event Basics & Timezone
 - [ ] Timezone Picker: searchable IANA list; default System; no hardcoded strings.
   - Files: `apps/EventDeskProApp/Sources/Views/Components/TimezonePicker.swift`
-  - Accept: Typing filters identifiers; invalid TZ rejected.
+  - Accept: Typing filters identifiers; Return selects highlighted entry; System (America/…) pinned to top; invalid TZ rejected with inline error; Save disabled until there are changes.
 - [ ] Location field styling fix; Description grows; Save button disabled until changes.
   - Files: `apps/EventDeskProApp/Sources/Views/EventSettingsView.swift`
   - Accept: Baseline alignment; Save enabled only on diff.
@@ -101,7 +103,7 @@ Gaps remain where older behaviors linger or where v1.1 features are only partial
 ## 9) Public Registration / QR
 - [ ] Event header “Public Registration” button opens modal with Enable toggle, signed URL, QR code and actions (Copy Link/Save PNG/Regenerate).
   - Files: `EventDetailView.swift`, `.../Components/PublicRegistrationQRView.swift`
-  - Accept: Secret stored in Keychain by event; URL regenerates with TTL.
+  - Accept: Secret stored in Keychain by event; enabling generates a new signed URL + QR immediately; Regenerate invalidates prior URLs; Save PNG includes event name + date footer beneath the QR image; URL regenerates with TTL.
 - [ ] Optional email verification toggle.
   - Files: extend modal state in `EventDetailView.swift`
   - Accept: Toggle persists (stub if backend not ready).
@@ -117,6 +119,7 @@ Gaps remain where older behaviors linger or where v1.1 features are only partial
 - [ ] Timezone search returns valid IANA ids; persists.
 - [ ] Unified Export/Import menus present and consistent; filenames follow `context_YYYY‑MM‑DD_entity.ext`.
 - [ ] Empty/Loading/Error states show; banners accessible; Esc closes dialogs.
+ - [ ] Footer baseline sits at window bottom at any size; content scrolls; exactly one vertical scroll view (no nested scrolls).
 
 ---
 
