@@ -493,6 +493,23 @@ struct AttendeesView: View {
         let priorMap: [String:String] = attendees.reduce(into: [:]) { acc, a in
             if ids.contains(a.attendeeId) { acc[a.attendeeId] = a.status }
         }
+        // Optimistically update UI so primary action and chips reflect the change immediately
+        if !ids.isEmpty {
+            for idx in attendees.indices {
+                if ids.contains(attendees[idx].attendeeId) {
+                    var a = attendees[idx]
+                    a = EDPCore.AttendeeDTO(attendeeId: a.attendeeId,
+                                            memberId: a.memberId,
+                                            eventId: a.eventId,
+                                            name: a.name,
+                                            email: a.email,
+                                            company: a.company,
+                                            status: newStatus,
+                                            checkedInAt: (newStatus == "checkedin" ? ISO8601DateFormatter().string(from: Date()) : (newStatus == "preregistered" ? nil : a.checkedInAt)))
+                    attendees[idx] = a
+                }
+            }
+        }
         DispatchQueue.global(qos: .userInitiated).async {
             do {
                 let updated = try EDPCore.shared.bulkStatusUpdate(eventId: event.id, attendeeIds: ids, newStatus: newStatus, inProgress: isEventInProgress(event: event), override: override, reason: reason, changedBy: "ui_bulk")
@@ -520,6 +537,21 @@ struct AttendeesView: View {
         var groups: [String:[String]] = [:]
         for (id, status) in change.prior { groups[status, default: []].append(id) }
 
+        // Optimistically revert in UI
+        for idx in attendees.indices {
+            if let prior = change.prior[attendees[idx].attendeeId] {
+                var a = attendees[idx]
+                a = EDPCore.AttendeeDTO(attendeeId: a.attendeeId,
+                                        memberId: a.memberId,
+                                        eventId: a.eventId,
+                                        name: a.name,
+                                        email: a.email,
+                                        company: a.company,
+                                        status: prior,
+                                        checkedInAt: (prior == "checkedin" ? (a.checkedInAt ?? ISO8601DateFormatter().string(from: Date())) : nil))
+                attendees[idx] = a
+            }
+        }
         DispatchQueue.global(qos: .userInitiated).async {
             var total: Int64 = 0
             var lastErr: String? = nil
