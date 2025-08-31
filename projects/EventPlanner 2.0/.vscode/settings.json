@@ -1,0 +1,27 @@
+{
+  "files.eol": "\n",
+  "editor.formatOnSave": true,
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "[swift]": {
+    "editor.tabSize": 4,
+    "editor.defaultFormatter": "sswg.swift-lang"
+  },
+  "[rust]": {
+    "editor.tabSize": 4,
+    "editor.defaultFormatter": "rust-lang.rust-analyzer",
+    "rust-analyzer.checkOnSave.command": "clippy"
+  },
+  "[markdown]": {
+    "editor.wordWrap": "on",
+    "editor.rulers": [120]
+  },
+  "markdownlint.config": {
+    "MD013": false,
+    "MD033": false,
+    "MD041": false
+  }
+}
+

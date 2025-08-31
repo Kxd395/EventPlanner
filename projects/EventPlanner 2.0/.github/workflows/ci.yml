@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  lint_docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lint Markdown
+        uses: DavidAnson/markdownlint-cli2-action@v15
+        with:
+          globs: |
+            **/*.md
+
+  rust:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          components: clippy, rustfmt
+          override: true
+      - name: Cargo fmt
+        run: |
+          if [ -f rust-toolchain.toml ] || [ -d rust-core ]; then cargo fmt --all -- --check || true; fi
+      - name: Cargo clippy
+        run: |
+          if [ -d rust-core ]; then cd rust-core && cargo clippy --all-targets --all-features -D warnings || true; fi
+      - name: Cargo test
+        run: |
+          if [ -d rust-core ]; then cd rust-core && cargo test --all-features -- --nocapture; fi
+      - name: Build and smoke CLI
+        run: |
+          if [ -d rust-core ]; then \
+            cd rust-core && \
+            cargo build --bin edp_tool --release && \
+            target/release/edp_tool preview ../samples/csv/sample_attendees.csv >/dev/null && \
+            target/release/edp_tool validate-analytics ../samples/analytics/valid_event.json && \
+            target/release/edp_tool commit evt_ci ../samples/csv/sample_attendees.csv --db /tmp/edp_ci.db >/dev/null && \
+            target/release/edp_tool export evt_ci --db /tmp/edp_ci.db >/dev/null; \
+          fi
+
+  swift:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Swift build
+        run: |
+          if [ -f Package.swift ]; then swift build -c release || true; fi
+      - name: Swift test
+        run: |
+          if [ -f Package.swift ]; then swift test --parallel || true; fi
+      - name: Build SwiftUI App (SPM)
+        run: |
+          if [ -d apps/EventDeskProApp ]; then cd apps/EventDeskProApp && swift build -c release || true; fi

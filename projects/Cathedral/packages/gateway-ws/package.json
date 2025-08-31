@@ -1,0 +1,25 @@
+{
+  "name": "@cathedral/gateway-ws",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -b",
+    "dev": "pnpm build && node dist/index.js",
+    "dev:watch": "concurrently -k \"tsc -b -w\" \"nodemon -q dist/index.js\"",
+    "client": "node scripts/dev-client.mjs",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "@cathedral/shared-types": "workspace:*",
+    "@cathedral/game-engine": "workspace:*",
+    "ws": "^8.17.0"
+  },
+  "devDependencies": {
+    "@types/ws": "^8.5.10",
+    "concurrently": "^9.0.0",
+    "nodemon": "^3.1.0",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.4.0"
+  }
+}

@@ -1,0 +1,1 @@
+/Users/VScode_Projects/projects/EventPlanner\ 2.0/rust-core/target/x86_64-apple-darwin/release/edp_tool: /Users/VScode_Projects/projects/EventPlanner\ 2.0/rust-core/src/../../docs/db/SCHEMA.sql /Users/VScode_Projects/projects/EventPlanner\ 2.0/rust-core/src/bin/edp_tool.rs /Users/VScode_Projects/projects/EventPlanner\ 2.0/rust-core/src/lib.rs

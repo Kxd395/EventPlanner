@@ -1,0 +1,27 @@
+{
+  "name": "EventDeskPro Devcontainer",
+  "image": "mcr.microsoft.com/devcontainers/rust:1", 
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "rust-lang.rust-analyzer",
+        "vadimcn.vscode-lldb",
+        "bungcip.better-toml",
+        "serayuzgur.crates",
+        "ms-vscode.cpptools",
+        "yzhang.markdown-all-in-one",
+        "eamodio.gitlens"
+      ]
+    }
+  },
+  "postStartCommand": "rustup component add rust-src; rustup component add clippy; cargo --version",
+  "workspaceFolder": "/workspace"
+}
+
+/* Notes:
+ - This devcontainer is for Rust and CLI Swift workflows. Building/running the macOS GUI requires Xcode on macOS and cannot be run inside Linux containers.
+ - Install Apple Swift toolchain locally for Swift package editing and run GUI builds on macOS host.
+*/

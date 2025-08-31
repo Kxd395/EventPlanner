@@ -1,0 +1,7 @@
+{
+  "name": "attendee_status_change",
+  "timestamp": "2025-08-29T12:00:00Z",
+  "actorId": "u1",
+  "context": { "eventId": "evt_1", "attendanceId": "att_1" },
+  "payload": { "priorStatus": "preregistered", "newStatus": "checkedin" }
+}

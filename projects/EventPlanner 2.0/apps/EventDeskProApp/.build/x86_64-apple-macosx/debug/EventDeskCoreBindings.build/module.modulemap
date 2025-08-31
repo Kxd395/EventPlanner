@@ -1,0 +1,4 @@
+module EventDeskCoreBindings {
+    header "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/x86_64-apple-macosx/debug/EventDeskCoreBindings.build/EventDeskCoreBindings-Swift.h"
+    requires objc
+}

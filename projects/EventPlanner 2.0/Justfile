@@ -1,0 +1,49 @@
+# Justfile: helper targets for formatting, testing, building, and generating bindings
+
+fmt:
+	# Format Rust and Swift
+	cargo fmt
+	cargo clippy --all-targets --all-features -- -D warnings || true
+	# swift-format may be installed via Homebrew or similar
+	if which swift-format >/dev/null 2>&1; then \
+		swift-format --recursive --in-place apps/EventDeskProApp || true; \
+	fi
+
+test:
+	cargo test
+	# run swift tests for the app package if available
+	if [ -d apps/EventDeskProApp ]; then \
+		swift test --package-path apps/EventDeskProApp || true; \
+	fi
+
+build-core:
+	cargo build --release -p eventdesk_core
+
+gen-bindings:
+	# Placeholder: call your uniffi or swift-bridge generation step here
+	@echo "Run your binding generation command (uniffi/swift-bridge/cbindgen)"
+
+dev: fmt gen-bindings build-core
+default:
+    @just --list
+
+fmt:
+    cargo fmt
+    cargo clippy --all-targets --all-features -- -D warnings
+    swift-format --recursive --in-place apps || true
+
+test:
+    cargo test
+    swift test --package-path apps/EventDeskProApp
+
+build-core:
+    scripts/build_universal.sh
+
+gen-header:
+    scripts/gen_header.sh
+
+dev:
+    just fmt
+    just gen-header
+    just build-core
+

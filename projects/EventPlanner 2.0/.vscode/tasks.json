@@ -1,0 +1,88 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "rust:fmt+clippy",
+      "type": "shell",
+      "command": "cargo fmt && cargo clippy --all-targets --all-features -- -D warnings",
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "rust:test",
+      "type": "shell",
+      "command": "cargo test",
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "swift:format",
+      "type": "shell",
+      "command": "swift-format --recursive --in-place apps/EventDeskProApp",
+      "problemMatcher": []
+    },
+    {
+      "label": "swift:test",
+      "type": "shell",
+      "command": "swift test --package-path apps/EventDeskProApp",
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "ffi:gen",
+      "type": "shell",
+      "command": "just gen-bindings",
+      "problemMatcher": []
+    }
+  ]
+}
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "rust:fmt+clippy",
+      "type": "shell",
+      "command": "cargo fmt && cargo clippy --all-targets --all-features -- -D warnings",
+      "group": "build",
+      "problemMatcher": ["$rustc"]
+    },
+    {
+      "label": "rust:test",
+      "type": "shell",
+      "command": "cargo test",
+      "group": "test",
+      "problemMatcher": ["$rustc"]
+    },
+    {
+      "label": "ffi:build-universal",
+      "type": "shell",
+      "command": "scripts/build_universal.sh",
+      "options": { "cwd": "${workspaceFolder}" }
+    },
+    {
+      "label": "ffi:gen-header",
+      "type": "shell",
+      "command": "scripts/gen_header.sh",
+      "options": { "cwd": "${workspaceFolder}" }
+    },
+    {
+      "label": "swift:format",
+      "type": "shell",
+      "command": "swift-format --recursive --in-place apps || true"
+    },
+    {
+      "label": "swift:test",
+      "type": "shell",
+      "command": "swift test --package-path apps/EventDeskProApp",
+      "group": "test",
+      "problemMatcher": ["$swiftc"]
+    },
+    {
+      "label": "app:build",
+      "type": "shell",
+      "command": "cd apps/EventDeskProApp && swift build -c debug",
+      "group": "build"
+    }
+  ]
+}
+

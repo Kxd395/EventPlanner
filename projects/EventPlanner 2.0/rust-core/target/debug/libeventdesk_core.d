@@ -1,0 +1,1 @@
+/Users/VScode_Projects/projects/EventPlanner\ 2.0/rust-core/target/debug/libeventdesk_core.dylib: /Users/VScode_Projects/projects/EventPlanner\ 2.0/rust-core/src/../../docs/db/SCHEMA.sql /Users/VScode_Projects/projects/EventPlanner\ 2.0/rust-core/src/lib.rs

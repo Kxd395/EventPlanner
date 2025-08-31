@@ -1,0 +1,23 @@
+{
+  "": {
+    "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/index-build/arm64-apple-macosx/debug/EventDeskProAppTests.build/master.swiftdeps"
+  },
+  "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/Tests/AppTests.swift": {
+    "dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/index-build/arm64-apple-macosx/debug/EventDeskProAppTests.build/AppTests.d",
+    "object": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/index-build/arm64-apple-macosx/debug/EventDeskProAppTests.build/AppTests.swift.o",
+    "swiftmodule": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/index-build/arm64-apple-macosx/debug/EventDeskProAppTests.build/AppTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/index-build/arm64-apple-macosx/debug/EventDeskProAppTests.build/AppTests.swiftdeps"
+  },
+  "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/Tests/BindingsTests.swift": {
+    "dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/index-build/arm64-apple-macosx/debug/EventDeskProAppTests.build/BindingsTests.d",
+    "object": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/index-build/arm64-apple-macosx/debug/EventDeskProAppTests.build/BindingsTests.swift.o",
+    "swiftmodule": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/index-build/arm64-apple-macosx/debug/EventDeskProAppTests.build/BindingsTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/index-build/arm64-apple-macosx/debug/EventDeskProAppTests.build/BindingsTests.swiftdeps"
+  },
+  "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/Tests/DesignTests.swift": {
+    "dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/index-build/arm64-apple-macosx/debug/EventDeskProAppTests.build/DesignTests.d",
+    "object": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/index-build/arm64-apple-macosx/debug/EventDeskProAppTests.build/DesignTests.swift.o",
+    "swiftmodule": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/index-build/arm64-apple-macosx/debug/EventDeskProAppTests.build/DesignTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/index-build/arm64-apple-macosx/debug/EventDeskProAppTests.build/DesignTests.swiftdeps"
+  }
+}

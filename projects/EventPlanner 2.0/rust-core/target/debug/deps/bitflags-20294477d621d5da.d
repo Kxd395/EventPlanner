@@ -1,0 +1,11 @@
+/Users/VScode_Projects/projects/EventPlanner 2.0/rust-core/target/debug/deps/libbitflags-20294477d621d5da.rmeta: /Users/kevindialmb/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.9.3/src/lib.rs /Users/kevindialmb/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.9.3/src/iter.rs /Users/kevindialmb/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.9.3/src/parser.rs /Users/kevindialmb/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.9.3/src/traits.rs /Users/kevindialmb/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.9.3/src/public.rs /Users/kevindialmb/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.9.3/src/internal.rs /Users/kevindialmb/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.9.3/src/external.rs
+
+/Users/VScode_Projects/projects/EventPlanner 2.0/rust-core/target/debug/deps/bitflags-20294477d621d5da.d: /Users/kevindialmb/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.9.3/src/lib.rs /Users/kevindialmb/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.9.3/src/iter.rs /Users/kevindialmb/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.9.3/src/parser.rs /Users/kevindialmb/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.9.3/src/traits.rs /Users/kevindialmb/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.9.3/src/public.rs /Users/kevindialmb/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.9.3/src/internal.rs /Users/kevindialmb/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.9.3/src/external.rs
+
+/Users/kevindialmb/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.9.3/src/lib.rs:
+/Users/kevindialmb/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.9.3/src/iter.rs:
+/Users/kevindialmb/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.9.3/src/parser.rs:
+/Users/kevindialmb/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.9.3/src/traits.rs:
+/Users/kevindialmb/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.9.3/src/public.rs:
+/Users/kevindialmb/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.9.3/src/internal.rs:
+/Users/kevindialmb/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.9.3/src/external.rs:

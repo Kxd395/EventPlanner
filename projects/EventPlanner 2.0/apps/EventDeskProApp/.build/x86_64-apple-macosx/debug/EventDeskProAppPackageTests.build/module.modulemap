@@ -1,0 +1,4 @@
+module EventDeskProAppPackageTests {
+    header "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/x86_64-apple-macosx/debug/EventDeskProAppPackageTests.build/EventDeskProAppPackageTests-Swift.h"
+    requires objc
+}

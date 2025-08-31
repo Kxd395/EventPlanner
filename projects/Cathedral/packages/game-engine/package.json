@@ -1,0 +1,20 @@
+{
+  "name": "@cathedral/game-engine",
+  "version": "0.1.0",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "scripts": {
+    "build": "tsc -b",
+  "test": "pnpm --filter @cathedral/shared-types build && pnpm --filter @cathedral/game-engine build && vitest run",
+    "dev": "vitest watch",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "@cathedral/shared-types": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "vitest": "^1.6.0",
+    "rimraf": "^5.0.5"
+  }
+}

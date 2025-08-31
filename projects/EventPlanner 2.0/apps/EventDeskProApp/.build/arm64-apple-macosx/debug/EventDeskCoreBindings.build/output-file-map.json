@@ -1,0 +1,11 @@
+{
+  "": {
+    "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskCoreBindings.build/master.swiftdeps"
+  },
+  "/Users/VScode_Projects/projects/EventPlanner 2.0/Sources/EventDeskCoreBindings/EDPCore.swift": {
+    "dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskCoreBindings.build/EDPCore.d",
+    "object": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskCoreBindings.build/EDPCore.swift.o",
+    "swiftmodule": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskCoreBindings.build/EDPCore~partial.swiftmodule",
+    "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskCoreBindings.build/EDPCore.swiftdeps"
+  }
+}

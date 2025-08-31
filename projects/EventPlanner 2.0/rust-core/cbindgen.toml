@@ -1,0 +1,32 @@
+language = "C"
+include_guard = "EVENTDESK_CORE_H"
+pragma_once = true
+style = "both"
+usize_is_size_t = true
+
+header = """
+#ifndef EVENTDESK_CORE_H
+#define EVENTDESK_CORE_H
+
+#include <stdbool.h>
+#include <stdint.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+"""
+
+trailer = """
+#ifdef __cplusplus
+}
+#endif
+
+#endif // EVENTDESK_CORE_H
+"""
+
+export = true
+
+parse = { expand = ["*"], extra_bindings = ["eventdesk_core"] }
+
+rename = { "c_char" = "char" }
+

@@ -1,0 +1,6 @@
+name,email,company,status
+Jane Doe,jane@example.com,Orbit,checkedin
+Sam Smith,sam@example.com,ACME,registered
+No Email,,Open,walkin
+Duplicate,jane@example.com,Orbit,
+Empty,,, 
