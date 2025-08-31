@@ -8,11 +8,13 @@ struct AttendeeRow: View {
     var onReset: ((String) -> Void)? = nil
     var onRemove: ((String) -> Void)? = nil
     var onUndo: (() -> Void)? = nil
+    var statusOverride: String? = nil
     var highlighted: Bool = false
 
     var body: some View {
+        let statusStr = statusOverride ?? attendee.status
         HStack(spacing: 12) {
-            Circle().fill(EDPDesign.color(for: attendee.status)).frame(width: 8, height: 8)
+            Circle().fill(EDPDesign.color(for: statusStr)).frame(width: 8, height: 8)
             VStack(alignment: .leading, spacing: 2) {
                 HStack(spacing: 6) {
                     Text(attendee.name).font(.headline)
@@ -26,17 +28,17 @@ struct AttendeeRow: View {
             Spacer()
             // Inline status controls per ASCII spec — use compact StatusChip
             HStack(spacing: 6) {
-                StatusChip(title: "Pre-Registered", color: EDPDesign.Status.preregistered, active: attendee.status == "preregistered", small: true) { onChangeStatus?("preregistered") }
-                StatusChip(title: "Walk-in", color: EDPDesign.Status.walkin, active: attendee.status == "walkin", small: true) { onChangeStatus?("walkin") }
-                StatusChip(title: "Check-In", color: EDPDesign.Status.checkedin, active: attendee.status == "checkedin", small: true) { onChangeStatus?("checkedin") }
-                StatusChip(title: "DNA", color: EDPDesign.Status.dna, active: attendee.status == "dna", small: true) { onChangeStatus?("dna") }
+                StatusChip(title: "Pre-Registered", color: EDPDesign.Status.preregistered, active: statusStr == "preregistered", small: true) { onChangeStatus?("preregistered") }
+                StatusChip(title: "Walk-in", color: EDPDesign.Status.walkin, active: statusStr == "walkin", small: true) { onChangeStatus?("walkin") }
+                StatusChip(title: "Check-In", color: EDPDesign.Status.checkedin, active: statusStr == "checkedin", small: true) { onChangeStatus?("checkedin") }
+                StatusChip(title: "DNA", color: EDPDesign.Status.dna, active: statusStr == "dna", small: true) { onChangeStatus?("dna") }
             }
             .font(.caption2)
             if let ts = attendee.checkedInAt { Text(ts).font(.caption2).foregroundColor(.secondary) }
             Button("Profile") { onOpenProfile?(attendee.memberId) }
                 .buttonStyle(.bordered)
             Menu(content: {
-                if attendee.status == "checkedin" { Button("Undo Check-In…") { onUndo?() } }
+                if statusStr == "checkedin" { Button("Undo Check-In…") { onUndo?() } }
                 Button("Reset Participation…") { onReset?(attendee.attendeeId) }
                 Divider()
                 Button("Remove from Event…", role: .destructive) { onRemove?(attendee.attendeeId) }

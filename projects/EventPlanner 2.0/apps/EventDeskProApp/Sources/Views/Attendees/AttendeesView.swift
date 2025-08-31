@@ -33,6 +33,7 @@ struct AttendeesView: View {
     @State private var pendingRemoveIds: [String] = []
     @State private var panelAttendee: EDPCore.AttendeeDTO? = nil
     @State private var statusV2NullsCount: Int64? = nil
+    @State private var optimisticStatus: [String:String] = [:]
     enum SortOption: String, CaseIterable { case name = "Name", status = "Status", checkin = "Check-in Time" }
     @State private var sortOption: SortOption = .name
     @State private var highlightedId: String? = nil
@@ -134,7 +135,7 @@ struct AttendeesView: View {
                                     showProfileAttendee = a
                                 }, onChangeStatus: { newCode in
                                     openStatusSheet(ids: [a.attendeeId], new: newCode)
-                                }, onReset: { _ in openResetSheet(ids: [a.attendeeId]) }, onRemove: { id in confirmRemove(ids: [id]) }, onUndo: { undoLastChange() }, highlighted: highlightedId == a.attendeeId)
+                                }, onReset: { _ in openResetSheet(ids: [a.attendeeId]) }, onRemove: { id in confirmRemove(ids: [id]) }, onUndo: { undoLastChange() }, statusOverride: optimisticStatus[a.attendeeId], highlighted: highlightedId == a.attendeeId)
                                 .onTapGesture { panelAttendee = a }
                                 .contextMenu {
                                     Button("Set Checked-In") { openStatusSheet(ids: [a.attendeeId], new: "checkedin") }
@@ -169,7 +170,8 @@ struct AttendeesView: View {
                                                  onRemove: { id in remove(ids: [id]) },
                                                  onChangeStatus: { newCode in openStatusSheet(ids: [a.attendeeId], new: newCode) },
                                                  onReset: { _ in openResetSheet(ids: [a.attendeeId]) },
-                                                 onUndo: { undoLastChange() })
+                                                 onUndo: { undoLastChange() },
+                                                 statusOverride: optimisticStatus[a.attendeeId])
                                         .id(a.attendeeId)
                                 }
                             }
@@ -493,23 +495,8 @@ struct AttendeesView: View {
         let priorMap: [String:String] = attendees.reduce(into: [:]) { acc, a in
             if ids.contains(a.attendeeId) { acc[a.attendeeId] = a.status }
         }
-        // Optimistically update UI so primary action and chips reflect the change immediately
-        if !ids.isEmpty {
-            for idx in attendees.indices {
-                if ids.contains(attendees[idx].attendeeId) {
-                    var a = attendees[idx]
-                    a = EDPCore.AttendeeDTO(attendeeId: a.attendeeId,
-                                            memberId: a.memberId,
-                                            eventId: a.eventId,
-                                            name: a.name,
-                                            email: a.email,
-                                            company: a.company,
-                                            status: newStatus,
-                                            checkedInAt: (newStatus == "checkedin" ? ISO8601DateFormatter().string(from: Date()) : (newStatus == "preregistered" ? nil : a.checkedInAt)))
-                    attendees[idx] = a
-                }
-            }
-        }
+        // Optimistically update UI using an override map (no DTO mutation needed)
+        ids.forEach { optimisticStatus[$0] = newStatus }
         DispatchQueue.global(qos: .userInitiated).async {
             do {
                 let updated = try EDPCore.shared.bulkStatusUpdate(eventId: event.id, attendeeIds: ids, newStatus: newStatus, inProgress: isEventInProgress(event: event), override: override, reason: reason, changedBy: "ui_bulk")
@@ -520,6 +507,8 @@ struct AttendeesView: View {
                     toastActionTitle = "Undo"
                     toastAction = { undoLastChange() }
                     toast = "Updated \(updated)"
+                    // Clear optimistic overrides shortly after reload
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { ids.forEach { optimisticStatus.removeValue(forKey: $0) } }
                     NotificationCenter.default.post(name: .edpEventCountsShouldRefresh, object: nil, userInfo: ["eventId": event.id])
                 }
             } catch {
@@ -537,21 +526,8 @@ struct AttendeesView: View {
         var groups: [String:[String]] = [:]
         for (id, status) in change.prior { groups[status, default: []].append(id) }
 
-        // Optimistically revert in UI
-        for idx in attendees.indices {
-            if let prior = change.prior[attendees[idx].attendeeId] {
-                var a = attendees[idx]
-                a = EDPCore.AttendeeDTO(attendeeId: a.attendeeId,
-                                        memberId: a.memberId,
-                                        eventId: a.eventId,
-                                        name: a.name,
-                                        email: a.email,
-                                        company: a.company,
-                                        status: prior,
-                                        checkedInAt: (prior == "checkedin" ? (a.checkedInAt ?? ISO8601DateFormatter().string(from: Date())) : nil))
-                attendees[idx] = a
-            }
-        }
+        // Optimistically revert via overrides
+        for (id, prior) in change.prior { optimisticStatus[id] = prior }
         DispatchQueue.global(qos: .userInitiated).async {
             var total: Int64 = 0
             var lastErr: String? = nil
@@ -571,6 +547,8 @@ struct AttendeesView: View {
                 lastStatusChange = nil
                 toastActionTitle = nil
                 toastAction = nil
+                // Clear overrides after reload
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { change.ids.forEach { optimisticStatus.removeValue(forKey: $0) } }
                 NotificationCenter.default.post(name: .edpEventCountsShouldRefresh, object: nil, userInfo: ["eventId": event.id])
             }
         }

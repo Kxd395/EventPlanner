@@ -9,17 +9,19 @@ struct AttendeeCard: View {
     var onChangeStatus: ((String)->Void)? = nil // canonical codes
     var onReset: ((String)->Void)? = nil
     var onUndo: (() -> Void)? = nil
+    var statusOverride: String? = nil
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             // Identity line + status dot
+            let statusStr = statusOverride ?? attendee.status
             HStack(alignment: .firstTextBaseline) {
                 Text(attendee.name).font(.headline).lineLimit(1)
                 MemberBadges(isGlobalMember: !attendee.memberId.isEmpty)
                 Spacer()
-                Circle().fill(EDPDesign.color(for: attendee.status)).frame(width: 8, height: 8)
+                Circle().fill(EDPDesign.color(for: statusStr)).frame(width: 8, height: 8)
                 Menu(content: {
-                    if attendee.status == "checkedin" { Button("Undo Check-In…") { onUndo?() } }
+                    if statusStr == "checkedin" { Button("Undo Check-In…") { onUndo?() } }
                     Button("Reset Participation…") { onReset?(attendee.attendeeId) }
                     Divider()
                     Button("Remove from Event…", role: .destructive) { onRemove?(attendee.attendeeId) }
@@ -35,7 +37,7 @@ struct AttendeeCard: View {
             .foregroundColor(.secondary)
 
             // Status chips (interactive, exclusive selection)
-            if let cur = AttendanceStatus(code: attendee.status) {
+            if let cur = AttendanceStatus(code: statusStr) {
                 AttendeeStatusChipGroup(current: cur) { next in
                     onChangeStatus?(next.code)
                 }
@@ -44,10 +46,10 @@ struct AttendeeCard: View {
 
             // Primary action varies by status
             HStack(spacing: 6) {
-                if attendee.status == "checkedin" {
+                if statusStr == "checkedin" {
                     Button { onUndo?() } label: { Label("Undo Check-In", systemImage: "arrow.uturn.backward") }
                         .buttonStyle(.bordered)
-                } else if attendee.status == "dna" {
+                } else if statusStr == "dna" {
                     Button { onReset?(attendee.attendeeId) } label: { Label("Revert to Pre-Registered", systemImage: "arrow.uturn.backward") }
                         .buttonStyle(.bordered)
                 } else {
