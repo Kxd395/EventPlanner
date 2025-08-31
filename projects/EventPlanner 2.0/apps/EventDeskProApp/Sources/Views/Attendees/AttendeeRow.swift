@@ -5,6 +5,9 @@ struct AttendeeRow: View {
     let attendee: EDPCore.AttendeeDTO
     var onOpenProfile: ((String) -> Void)? = nil
     var onChangeStatus: ((String) -> Void)? = nil // canonical codes
+    var onReset: ((String) -> Void)? = nil
+    var onRemove: ((String) -> Void)? = nil
+    var onUndo: (() -> Void)? = nil
     var highlighted: Bool = false
 
     var body: some View {
@@ -29,9 +32,15 @@ struct AttendeeRow: View {
             if let ts = attendee.checkedInAt { Text(ts).font(.caption2).foregroundColor(.secondary) }
             Button("Profile") { onOpenProfile?(attendee.memberId) }
                 .buttonStyle(.bordered)
+            Menu(content: {
+                if attendee.status == "checkedin" { Button("Undo Check-In…") { onUndo?() } }
+                Button("Reset Participation…") { onReset?(attendee.attendeeId) }
+                Divider()
+                Button("Remove from Event…", role: .destructive) { onRemove?(attendee.attendeeId) }
+            }, label: { Image(systemName: "ellipsis.circle").imageScale(.large) })
         }
-        .padding(.vertical, 6)
-        .padding(.horizontal, highlighted ? 6 : 0)
+    .padding(.vertical, 4)
+    .padding(.horizontal, highlighted ? 4 : 0)
         .background(highlighted ? Color.accentColor.opacity(0.08) : Color.clear)
         .overlay(
             RoundedRectangle(cornerRadius: 8)

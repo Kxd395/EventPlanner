@@ -7,6 +7,8 @@ struct AttendeeCard: View {
     var onEmail: ((String)->Void)? = nil
     var onRemove: ((String)->Void)? = nil
     var onChangeStatus: ((String)->Void)? = nil // canonical codes
+    var onReset: ((String)->Void)? = nil
+    var onUndo: (() -> Void)? = nil
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -15,6 +17,12 @@ struct AttendeeCard: View {
                 Text(attendee.name).font(.headline).lineLimit(1)
                 Spacer()
                 Circle().fill(EDPDesign.color(for: attendee.status)).frame(width: 8, height: 8)
+                Menu(content: {
+                    if attendee.status == "checkedin" { Button("Undo Check-In…") { onUndo?() } }
+                    Button("Reset Participation…") { onReset?(attendee.attendeeId) }
+                    Divider()
+                    Button("Remove from Event…", role: .destructive) { onRemove?(attendee.attendeeId) }
+                }, label: { Image(systemName: "ellipsis.circle").imageScale(.medium) })
             }
             // Metadata line
             HStack(spacing: 8) {

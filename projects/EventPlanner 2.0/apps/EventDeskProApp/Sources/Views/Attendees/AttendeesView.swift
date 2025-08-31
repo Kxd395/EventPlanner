@@ -23,9 +23,11 @@ struct AttendeesView: View {
     @State private var showWalkin = false
     @State private var showAdd = false
     @State private var showStatusSheet = false
+    @State private var showResetSheet = false
     @State private var showMultiExport = false
     @State private var statusTargetIds: [String] = []
     @State private var statusNewValue: String = "checkedin"
+    @State private var resetTargetIds: [String] = []
     @State private var lastStatusChange: (ids: [String], prior: [String:String], newStatus: String)? = nil
     @State private var showConfirmRemove = false
     @State private var pendingRemoveIds: [String] = []
@@ -132,7 +134,7 @@ struct AttendeesView: View {
                                     showProfileAttendee = a
                                 }, onChangeStatus: { newCode in
                                     openStatusSheet(ids: [a.attendeeId], new: newCode)
-                                }, highlighted: highlightedId == a.attendeeId)
+                                }, onReset: { _ in openResetSheet(ids: [a.attendeeId]) }, onRemove: { id in confirmRemove(ids: [id]) }, onUndo: { undoLastChange() }, highlighted: highlightedId == a.attendeeId)
                                 .onTapGesture { panelAttendee = a }
                                 .contextMenu {
                                     Button("Set Checked-In") { openStatusSheet(ids: [a.attendeeId], new: "checkedin") }
@@ -165,7 +167,9 @@ struct AttendeesView: View {
                                                  onCheckIn: { id in openStatusSheet(ids: [id], new: "checkedin") },
                                                  onEmail: { email in /* hook */ },
                                                  onRemove: { id in remove(ids: [id]) },
-                                                 onChangeStatus: { newCode in openStatusSheet(ids: [a.attendeeId], new: newCode) })
+                                                 onChangeStatus: { newCode in openStatusSheet(ids: [a.attendeeId], new: newCode) },
+                                                 onReset: { _ in openResetSheet(ids: [a.attendeeId]) },
+                                                 onUndo: { undoLastChange() })
                                         .id(a.attendeeId)
                                 }
                             }
@@ -216,6 +220,16 @@ struct AttendeesView: View {
                 applyStatus(ids: statusTargetIds, newStatus: statusNewValue, reason: reason, override: override)
             }
             .frame(minWidth: 520)
+        }
+        .sheet(isPresented: $showResetSheet) {
+            ResetParticipationSheet(name: resetTargetName) { option, reason in
+                switch option {
+                case .preregistered:
+                    applyStatus(ids: resetTargetIds, newStatus: "preregistered", reason: reason, override: true)
+                case .remove:
+                    confirmRemove(ids: resetTargetIds)
+                }
+            }
         }
         .sheet(isPresented: Binding<Bool>(get: { showProfileAttendee != nil }, set: { if !$0 { showProfileAttendee = nil } })) {
             QuickMemberPopover(attendee: showProfileAttendee!)
@@ -472,6 +486,7 @@ struct AttendeesView: View {
     }
 
     private func openStatusSheet(ids: [String], new: String) { statusTargetIds = ids; statusNewValue = new; showStatusSheet = true }
+    private func openResetSheet(ids: [String]) { resetTargetIds = ids; showResetSheet = true }
     private func currentStatusFor(ids: [String]) -> String? { ids.first.flatMap { id in attendees.first(where: { $0.attendeeId == id })?.status } }
     private func applyStatus(ids: [String], newStatus: String, reason: String?, override: Bool) {
         // Capture prior statuses for Undo before we mutate anything
@@ -547,6 +562,13 @@ private extension AttendeesView {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
             withAnimation { highlightedId = nil }
         }
+    }
+}
+
+private extension AttendeesView {
+    var resetTargetName: String {
+        guard let id = resetTargetIds.first, let a = attendees.first(where: { $0.attendeeId == id }) else { return "Attendee" }
+        return a.name
     }
 }
 
