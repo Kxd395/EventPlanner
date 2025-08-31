@@ -1,7 +1,7 @@
-# UI Spec (ASCII) — v1.1 Aligned to SSOT
-Last Updated: 2025-08-29 23:15:47Z
+# UI Spec (ASCII) — v1.2 Aligned to SSOT
+Last Updated: 2025-08-31 13:20:00Z
 
-Related docs: [Logic Mapping Prompt](../swift/SWIFT_APP_LOGIC_PROMPT.md) · [Issues Checklist](../issues/ISSUES_CHECKLIST.md) · [Progress](../progress/PROGRESS.md)
+Related docs: [Logic Mapping Prompt](../swift/SWIFT_APP_LOGIC_PROMPT.md) · [Issues Checklist](../issues/ISSUES_CHECKLIST.md) · [Progress](../progress/PROGRESS.md) · [Public Registration](../public_registration.md)
 
 ## Time & Timezones (SSOT)
 
@@ -24,12 +24,57 @@ Search: [ jane ]   Sort: (●) Name  ( ) Status  ( ) Check-in Time
 
 ---
 
+## Event Header Actions (All Tabs)
+
+```
+[ ← Back to Events ]   Event Name (Status)                    [ Edit ] [ Duplicate ] [ Public Registration ]
+Location 📍  |  2025-09-03 09:00 → 2025-09-03 17:00 (EDT)
+```
+
+- Public Registration: opens a modal to manage the event’s public link and QR.
+- Always visible in Event header across tabs.
+
+---
+
 ## Attendees Header Actions
 
 ```
 [ + Add Attendee ]  [ 👋 Walk-in ]  [ Import CSV ] [ Export CSV ] [ ✉ Send Emails ]
 Selection: [ n selected ]   [ Mark Checked-In ]  [ Mark DNA ]  [ Remove ]
 ```
+
+---
+
+## Public Registration (QR Link)
+
+Placement
+- Event Detail → Header → “Public Registration”.
+
+Flow
+```
++------------------ Public Registration ------------------+
+| Signed URL (24h default)                                 |
+| https://r.eventdesk.pro/e/<eventId>?t=<sig>&exp=<ts>     |
+|                                                          |
+| [ Copy Link ]  [ Save PNG ]  [ Regenerate ]  TTL: [ 1440 ]
++----------------------------------------------------------+
+```
+
+- First time per event: “Enable & Generate Secret” button appears; generates/stores a per‑event secret.
+- Controls:
+  - Copy Link: copies the full signed URL.
+  - Save PNG: exports the QR image (512px default) as PNG.
+  - Regenerate: rotates the per‑event secret and updates the link.
+  - TTL: stepper (10 min → 7 days) updates `exp` on link.
+
+Security
+- Token: `t` is HMAC‑SHA256 over `<eventId>|<exp>` using a per‑event secret.
+- TTL: `exp` is UNIX seconds. Links after `exp` are rejected.
+- Spec: see implementation details in ../public_registration.md
+
+Storage (current)
+- Per‑event secret is stored locally (UserDefaults key: `eventPublicSecret_<eventId>`).
+- Future: move to Keychain or core DB; fetch via bindings for multi‑device consistency.
 
 ---
 
@@ -114,6 +159,27 @@ SSOT Delta — Add Attendee
 
 ---
 
+## Live Updates (Registrations Sync)
+
+Behavior
+- Attendees tab auto‑pulls new public registrations while open.
+- Interval: ~12s (idempotent merge via CSV upsert in core).
+
+Contract
+- GET `/api/events/:id/registrations?since=<unix>` → JSON array of new rows
+  - Fields: `email, first_name, last_name, company` (minimum)
+- App merges into local SQLite via `csvCommit(eventId:, csvText:)` as `preregistered`.
+
+Settings
+- App Storage key `apiBase` holds the backend origin.
+- UI placement: Settings → “Integration” → `API Base URL` text field.
+
+Future
+- Swap polling for SSE/WebSocket push.
+- Kiosk/local fallback form for offline venues.
+
+---
+
 ## Confirmations & Safeguards
 
 ```
@@ -175,6 +241,9 @@ Pre-Reg → Confirmed → Checked-In
 |                                                                 |
 | Default Initial Status: (●) Pre-Reg  ( ) Walk-in                |
 | DNA Auto-timeout (min): [  60 ]                                 |
+|                                                                 |
+| Integration                                                     |
+| API Base URL: [ https://api.eventdesk.pro ]                     |
 |                                                                 |
 | Toggles: [x] Auto-send Confirmations                            |
 |          [x] Sync Directory                                     |
