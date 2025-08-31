@@ -4,23 +4,31 @@ struct AppFooter: View {
     let version: String
     var apiLatencyMs: Int? = nil
     var body: some View {
-        HStack(spacing: 16) {
-            Text("© 2025 EventDeskPro")
-            Divider().frame(height: 16)
-            Text("v\(version)")
-            Divider().frame(height: 16)
-            Text("Keyboard: ?")
-            Divider().frame(height: 16)
-            Text("API: \(apiLatencyMs != nil ? "OK (\(apiLatencyMs!)ms)" : "OK")")
-            Spacer(minLength: 10)
+        let items: [AnyView] = [
+            AnyView(Text("© 2025 EventDeskPro")),
+            AnyView(Text("v\(version)")),
+            AnyView(Text("Keyboard: ?")),
+            AnyView(Text("API: \(apiLatencyMs != nil ? "OK (\(apiLatencyMs!)ms)" : "OK")"))
+        ]
+
+        let cols = [GridItem(.adaptive(minimum: 160), spacing: 12)]
+
+        LazyVGrid(columns: cols, alignment: .center, spacing: 4) {
+            ForEach(items.indices, id: \.self) { idx in
+                HStack(spacing: 8) {
+                    items[idx]
+                    Spacer(minLength: 8)
+                }
+                .padding(.vertical, 4)
+            }
         }
         .font(.footnote)
         .foregroundColor(.secondary)
         .padding(.horizontal, 10)
         .padding(.vertical, 6)
         .frame(maxWidth: .infinity)
-        // Constrain height so vertical Dividers don't stretch unexpectedly
-        .frame(minHeight: 28, idealHeight: 28, maxHeight: 40)
+        .frame(minHeight: 28, idealHeight: 28, maxHeight: 44)
+        .background(Color.clear)
     }
 }
 

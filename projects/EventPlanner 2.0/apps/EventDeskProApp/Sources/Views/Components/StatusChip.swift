@@ -66,23 +66,31 @@ struct StatusFilterBar: View {
         HStack(spacing: 8) {
             ForEach(Status.allCases, id: \.rawValue) { s in
                 let isSel = (s == selected)
+                let count = countFor(s)
                 Button(action: { set(s) }) {
-                    Text(s.title)
-                        .font(.callout.weight(isSel ? .semibold : .regular))
-                        .padding(.vertical, 6).padding(.horizontal, 12)
-                        .frame(height: 28)
-                        .background(isSel ? s.color : Color.clear)
-                        .foregroundColor(isSel ? Color.white : s.color)
-                        .overlay(RoundedRectangle(cornerRadius: 8).stroke(s.color, lineWidth: isSel ? 0 : 1))
-                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                    HStack(spacing: 8) {
+                        Text(s.title)
+                            .font(.callout.weight(isSel ? .semibold : .regular))
+                        Text("\(count)")
+                            .font(.caption2)
+                            .foregroundColor(isSel ? Color.white.opacity(0.9) : s.color.opacity(0.9))
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 2)
+                            .background(isSel ? Color.white.opacity(0.15) : Color.clear)
+                            .cornerRadius(6)
+                    }
+                    .padding(.vertical, 6).padding(.horizontal, 12)
+                    .frame(height: 28)
+                    .background(isSel ? s.color : Color.clear)
+                    .foregroundColor(isSel ? Color.white : s.color)
+                    .overlay(RoundedRectangle(cornerRadius: 8).stroke(s.color, lineWidth: isSel ? 0 : 1))
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
                 }
                 .buttonStyle(.plain)
                 .keyboardShortcut(keyFor(s))
-                .accessibilityLabel(Text(s.title))
+                .accessibilityLabel(Text("\(s.title): \(count)"))
                 .accessibilityAddTraits(isSel ? .isSelected : [])
             }
-            Spacer()
-            Text("Total: \(totalCount ?? 0)").foregroundStyle(.secondary)
         }
         .accessibilityElement(children: .contain)
         .accessibilityLabel("Attendee filter")
@@ -102,6 +110,17 @@ struct StatusFilterBar: View {
         case .walkin: return "3"
         case .checkedin: return "4"
         case .dna: return "5"
+        }
+    }
+
+    private func countFor(_ s: Status) -> Int {
+        guard let c = counts else { return 0 }
+        switch s {
+        case .all: return Int(c.preregistered + c.walkin + c.checkedin + c.dna)
+        case .preregistered: return Int(c.preregistered)
+        case .walkin: return Int(c.walkin)
+        case .checkedin: return Int(c.checkedin)
+        case .dna: return Int(c.dna)
         }
     }
 }

@@ -83,11 +83,13 @@ struct MembersListView: View {
                             Spacer()
                         }.font(.caption).foregroundColor(.secondary)
                     }
-                }
+        }
+        .frame(maxHeight: .infinity)
             }
         }
-        .padding(.horizontal, 16)
-        .padding(.bottom, 8)
+    .padding(.horizontal, 16)
+    .padding(.bottom, 8)
+    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .overlay(alignment: .bottom) {
             HStack {
                 Text("Pagination: « Prev | 1 | 2 | 3 | Next »  Rows per page: 25 ▼")

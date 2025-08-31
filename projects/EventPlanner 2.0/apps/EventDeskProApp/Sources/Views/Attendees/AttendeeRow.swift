@@ -18,12 +18,12 @@ struct AttendeeRow: View {
                 }
             }
             Spacer()
-            // Inline status controls per ASCII spec
+            // Inline status controls per ASCII spec — use compact StatusChip
             HStack(spacing: 6) {
-                statusButton(title: "Pre-Registered", code: "preregistered", color: EDPDesign.Status.preregistered)
-                statusButton(title: "Walk-in", code: "walkin", color: EDPDesign.Status.walkin)
-                statusButton(title: "Check-In", code: "checkedin", color: EDPDesign.Status.checkedin)
-                statusButton(title: "DNA", code: "dna", color: EDPDesign.Status.dna)
+                StatusChip(title: "Pre-Registered", color: EDPDesign.Status.preregistered, active: attendee.status == "preregistered", small: true) { onChangeStatus?("preregistered") }
+                StatusChip(title: "Walk-in", color: EDPDesign.Status.walkin, active: attendee.status == "walkin", small: true) { onChangeStatus?("walkin") }
+                StatusChip(title: "Check-In", color: EDPDesign.Status.checkedin, active: attendee.status == "checkedin", small: true) { onChangeStatus?("checkedin") }
+                StatusChip(title: "DNA", color: EDPDesign.Status.dna, active: attendee.status == "dna", small: true) { onChangeStatus?("dna") }
             }
             .font(.caption2)
             if let ts = attendee.checkedInAt { Text(ts).font(.caption2).foregroundColor(.secondary) }
@@ -41,29 +41,5 @@ struct AttendeeRow: View {
         .accessibilityLabel(Text("Attendee \(attendee.name), status \(attendee.status)"))
     }
 
-    @ViewBuilder
-    private func statusButton(title: String, code: String, color: Color) -> some View {
-        let isActive = attendee.status == code
-        Button(action: { onChangeStatus?(code) }) {
-            HStack(spacing: 4) {
-                if isActive && code == "checkedin" {
-                    Image(systemName: "checkmark")
-                        .font(.caption2.weight(.bold))
-                }
-                Text(title)
-            }
-            .padding(.horizontal, 8)
-            .padding(.vertical, 4)
-            .background(isActive ? color.opacity(0.95) : color.opacity(0.07))
-            .foregroundColor(isActive ? .white : color.opacity(0.95))
-            .overlay(
-                RoundedRectangle(cornerRadius: 6)
-                    .stroke(color.opacity(isActive ? 0.0 : 0.7), lineWidth: isActive ? 0 : 1)
-            )
-            .cornerRadius(6)
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel(Text("Set status: \(title)"))
-        .disabled(isActive)
-    }
+    // ...existing code...
 }

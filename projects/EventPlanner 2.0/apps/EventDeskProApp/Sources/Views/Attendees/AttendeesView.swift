@@ -91,17 +91,7 @@ struct AttendeesView: View {
                 // Total count is shown in the filter bar; avoid duplication here
             }
 
-            // Summary cards + status chips
-            if let c = counts {
-                AttendeeSummaryCards(counts: c, onSelect: { status in
-                    switch status {
-                    case .preregistered: selectedStatus = .preregistered
-                    case .walkin: selectedStatus = .walkin
-                    case .checkedin: selectedStatus = .checkedin
-                    case .dna: selectedStatus = .dna
-                    }
-                })
-            }
+            // Status filter (counts are shown inside the buttons)
             StatusFilterBar(selected: $selectedStatus, counts: counts) { _ in }
 
             // Capacity header (always visible)
