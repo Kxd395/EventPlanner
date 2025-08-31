@@ -35,9 +35,13 @@ struct AttendeesView: View {
     @State private var sortOption: SortOption = .name
     @State private var highlightedId: String? = nil
     @State private var returnHighlightId: String? = nil
+    @AppStorage("attendees.viewMode") private var storedViewMode: String = ViewMode.table.rawValue
+    private var viewModeBinding: Binding<ViewMode> {
+        Binding(get: { ViewMode(rawValue: storedViewMode) ?? .table }, set: { storedViewMode = $0.rawValue })
+    }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 8) {
             // Header actions
             HStack(spacing: 8) {
                 Button { showAdd = true } label: { Label("Add Attendee", systemImage: "person.crop.circle.badge.plus") }
@@ -88,6 +92,8 @@ struct AttendeesView: View {
                 Picker("Sort", selection: $sortOption) { ForEach(SortOption.allCases, id: \.self) { Text($0.rawValue).tag($0) } }
                     .pickerStyle(.segmented)
                     .frame(maxWidth: 320)
+                Spacer()
+                ViewModePicker(mode: viewModeBinding)
                 // Total count is shown in the filter bar; avoid duplication here
             }
 
@@ -116,38 +122,56 @@ struct AttendeesView: View {
                 } else if attendeesFiltered.isEmpty {
                     EmptyStateView(title: "No attendees yet", actionTitle: "Add Attendee") { }
                 } else {
-                    ScrollViewReader { proxy in
-                        List(attendeesFiltered, id: \.attendeeId, selection: $selection) { a in
-                            AttendeeRow(attendee: a, onOpenProfile: { memberId in
-                                Analytics.emit("member_profile_open", payload: ["memberId": memberId])
-                                returnHighlightId = a.attendeeId
-                                showProfileAttendee = a
-                            }, onChangeStatus: { newCode in
-                                openStatusSheet(ids: [a.attendeeId], new: newCode)
-                            }, highlighted: highlightedId == a.attendeeId)
-                            .onTapGesture { panelAttendee = a }
-                            .contextMenu {
-                                Button("Set Checked-In") { openStatusSheet(ids: [a.attendeeId], new: "checkedin") }
-                                Button("Set DNA") { openStatusSheet(ids: [a.attendeeId], new: "dna") }
-                                Divider()
-                                Button("Remove from Event") { remove(ids: [a.attendeeId]) }
+                    switch ViewMode(rawValue: storedViewMode) ?? .table {
+                    case .table:
+                        ScrollViewReader { proxy in
+                            List(attendeesFiltered, id: \.attendeeId, selection: $selection) { a in
+                                AttendeeRow(attendee: a, onOpenProfile: { memberId in
+                                    Analytics.emit("member_profile_open", payload: ["memberId": memberId])
+                                    returnHighlightId = a.attendeeId
+                                    showProfileAttendee = a
+                                }, onChangeStatus: { newCode in
+                                    openStatusSheet(ids: [a.attendeeId], new: newCode)
+                                }, highlighted: highlightedId == a.attendeeId)
+                                .onTapGesture { panelAttendee = a }
+                                .contextMenu {
+                                    Button("Set Checked-In") { openStatusSheet(ids: [a.attendeeId], new: "checkedin") }
+                                    Button("Set DNA") { openStatusSheet(ids: [a.attendeeId], new: "dna") }
+                                    Divider()
+                                    Button("Remove from Event") { remove(ids: [a.attendeeId]) }
+                                }
+                                .id(a.attendeeId)
                             }
-                            .id(a.attendeeId)
+                            .onAppear { applyInitialHighlight(proxy: proxy) }
+                            .onChange(of: attendeesFiltered.count) { _ in applyInitialHighlight(proxy: proxy) }
+                            .frame(maxHeight: .infinity)
                         }
-                        .onAppear { applyInitialHighlight(proxy: proxy) }
-                        .onChange(of: attendeesFiltered.count) { _ in applyInitialHighlight(proxy: proxy) }
-                        .frame(maxHeight: .infinity)
-                    }
-                    .listStyle(.inset)
-                    .toolbar {
-                        ToolbarItemGroup(placement: .automatic) {
-                            if !selection.isEmpty {
-                                Button("Mark Checked-In") { openStatusSheet(ids: Array(selection), new: "checkedin") }
-                                Button("Mark DNA") { openStatusSheet(ids: Array(selection), new: "dna") }
-                                Button("Send Emails") { toast = "Email sending coming soon" }
-                                Button("Remove") { confirmRemove(ids: Array(selection)) }
+                        .listStyle(.inset)
+                        .toolbar {
+                            ToolbarItemGroup(placement: .automatic) {
+                                if !selection.isEmpty {
+                                    Button("Mark Checked-In") { openStatusSheet(ids: Array(selection), new: "checkedin") }
+                                    Button("Mark DNA") { openStatusSheet(ids: Array(selection), new: "dna") }
+                                    Button("Send Emails") { toast = "Email sending coming soon" }
+                                    Button("Remove") { confirmRemove(ids: Array(selection)) }
+                                }
                             }
                         }
+                    case .cards:
+                        ScrollView { // single scroll surface for cards
+                            LazyVGrid(columns: [GridItem(.adaptive(minimum: 280, maximum: 360), spacing: 12)], spacing: 12) {
+                                ForEach(attendeesFiltered, id: \.attendeeId) { a in
+                                    AttendeeCard(attendee: a,
+                                                 onCheckIn: { id in openStatusSheet(ids: [id], new: "checkedin") },
+                                                 onEmail: { email in /* hook */ },
+                                                 onRemove: { id in remove(ids: [id]) },
+                                                 onChangeStatus: { newCode in openStatusSheet(ids: [a.attendeeId], new: newCode) })
+                                        .id(a.attendeeId)
+                                }
+                            }
+                            .padding(12)
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                     }
                 }
             }
