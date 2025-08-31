@@ -1,0 +1,72 @@
+<!doctype html>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Register for Event</title>
+<style>
+  body{font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;max-width:520px;margin:20px auto;padding:0 12px}
+  input,button{font-size:16px;padding:10px;margin:6px 0;width:100%}
+  label{display:block;margin:8px 0}
+  .ok{color:#0a7a35}.err{color:#b00020}
+</style>
+<form id="r">
+  <input name="first_name" placeholder="First name" required>
+  <input name="last_name"  placeholder="Last name" required>
+  <input name="email"      placeholder="email@example.com" type="email" required>
+  <input name="phone"      placeholder="+1 555-555-5555">
+  <input name="company"    placeholder="Company">
+  <label><input type="checkbox" name="consent_email" checked> Email updates</label>
+  <button type="submit">Register</button>
+  <p style="font-size:12px;color:#555">By continuing you agree to the event's privacy policy.</p>
+  <input type="hidden" id="event_id">
+  <input type="hidden" id="t">
+  <input type="hidden" id="exp">
+  <noscript>This form requires JavaScript.</noscript>
+  <div id="msg" role="status" aria-live="polite"></div>
+  <p id="debug" style="display:none"></p>
+  <details>
+    <summary>Having trouble?</summary>
+    <p>Ensure the QR link wasn't altered. If the page was opened from a poster, try rescanning.</p>
+  </details>
+  <script>
+  const API_BASE = ""; // e.g. "https://api.eventdesk.pro" or "" for same-origin
+  const params = new URLSearchParams(location.search);
+  const pathParts = location.pathname.split("/").filter(Boolean);
+  const idx = pathParts.indexOf("e");
+  const eventId = idx >= 0 ? pathParts[idx+1] : (pathParts[0] || "");
+  document.getElementById('event_id').value = eventId;
+  document.getElementById('t').value = params.get('t') || '';
+  document.getElementById('exp').value = params.get('exp') || '';
+
+  async function postJSON(url, data) {
+    const rsp = await fetch(url, {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify(data)
+    });
+    const text = await rsp.text();
+    let json = {}; try { json = JSON.parse(text) } catch {}
+    return { ok: rsp.ok, json };
+  }
+
+  document.getElementById('r').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const f = new FormData(e.target);
+    const payload = {
+      event_id: document.getElementById('event_id').value,
+      token: document.getElementById('t').value,
+      exp: Number(document.getElementById('exp').value || 0),
+      first_name: f.get('first_name'),
+      last_name:  f.get('last_name'),
+      email:      f.get('email'),
+      phone:      f.get('phone') || null,
+      company:    f.get('company') || null,
+      consent:    { email: !!f.get('consent_email') }
+    };
+    const url = `${API_BASE}/api/events/${encodeURIComponent(payload.event_id)}/registrations`;
+    const { ok, json } = await postJSON(url, payload);
+    const el = document.getElementById('msg');
+    el.className = ok ? "ok" : "err";
+    el.textContent = ok ? "Thanks, you're pre-registered!" : (json.error || "Error");
+  });
+  </script>
+</form>
+
