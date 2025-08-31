@@ -6,17 +6,21 @@ struct AppFooter: View {
     var body: some View {
         HStack(spacing: 16) {
             Text("© 2025 EventDeskPro")
-            Divider()
+            Divider().frame(height: 16)
             Text("v\(version)")
-            Divider()
+            Divider().frame(height: 16)
             Text("Keyboard: ?")
-            Divider()
+            Divider().frame(height: 16)
             Text("API: \(apiLatencyMs != nil ? "OK (\(apiLatencyMs!)ms)" : "OK")")
+            Spacer(minLength: 10)
         }
-        .font(.caption)
+        .font(.footnote)
         .foregroundColor(.secondary)
-        .padding(.horizontal, 16)
+        .padding(.horizontal, 10)
         .padding(.vertical, 6)
+        .frame(maxWidth: .infinity)
+        // Constrain height so vertical Dividers don't stretch unexpectedly
+        .frame(minHeight: 28, idealHeight: 28, maxHeight: 40)
     }
 }
 

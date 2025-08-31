@@ -8,6 +8,12 @@
     "swiftmodule": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/Analytics~partial.swiftmodule",
     "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/Analytics.swiftdeps"
   },
+  "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/Sources/AppDelegate.swift": {
+    "dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AppDelegate.d",
+    "object": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AppDelegate.swift.o",
+    "swiftmodule": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AppDelegate~partial.swiftmodule",
+    "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AppDelegate.swiftdeps"
+  },
   "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/Sources/AppMain.swift": {
     "dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AppMain.d",
     "object": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AppMain.swift.o",
@@ -20,11 +26,41 @@
     "swiftmodule": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/Design~partial.swiftmodule",
     "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/Design.swiftdeps"
   },
+  "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/Sources/Notifications.swift": {
+    "dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/Notifications.d",
+    "object": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/Notifications.swift.o",
+    "swiftmodule": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/Notifications~partial.swiftmodule",
+    "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/Notifications.swiftdeps"
+  },
+  "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/Sources/RegistrationSyncService.swift": {
+    "dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/RegistrationSyncService.d",
+    "object": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/RegistrationSyncService.swift.o",
+    "swiftmodule": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/RegistrationSyncService~partial.swiftmodule",
+    "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/RegistrationSyncService.swiftdeps"
+  },
+  "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/Sources/Views/Attendees/AddAttendeeSheet.swift": {
+    "dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AddAttendeeSheet.d",
+    "object": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AddAttendeeSheet.swift.o",
+    "swiftmodule": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AddAttendeeSheet~partial.swiftmodule",
+    "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AddAttendeeSheet.swiftdeps"
+  },
+  "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/Sources/Views/Attendees/AttendeeDetailPanel.swift": {
+    "dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AttendeeDetailPanel.d",
+    "object": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AttendeeDetailPanel.swift.o",
+    "swiftmodule": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AttendeeDetailPanel~partial.swiftmodule",
+    "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AttendeeDetailPanel.swiftdeps"
+  },
   "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/Sources/Views/Attendees/AttendeeRow.swift": {
     "dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AttendeeRow.d",
     "object": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AttendeeRow.swift.o",
     "swiftmodule": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AttendeeRow~partial.swiftmodule",
     "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AttendeeRow.swiftdeps"
+  },
+  "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/Sources/Views/Attendees/AttendeeSummaryCards.swift": {
+    "dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AttendeeSummaryCards.d",
+    "object": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AttendeeSummaryCards.swift.o",
+    "swiftmodule": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AttendeeSummaryCards~partial.swiftmodule",
+    "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AttendeeSummaryCards.swiftdeps"
   },
   "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/Sources/Views/Attendees/AttendeesView.swift": {
     "dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AttendeesView.d",
@@ -37,6 +73,18 @@
     "object": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/CSVImportView.swift.o",
     "swiftmodule": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/CSVImportView~partial.swiftmodule",
     "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/CSVImportView.swiftdeps"
+  },
+  "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/Sources/Views/Attendees/ExportTypes.swift": {
+    "dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/ExportTypes.d",
+    "object": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/ExportTypes.swift.o",
+    "swiftmodule": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/ExportTypes~partial.swiftmodule",
+    "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/ExportTypes.swiftdeps"
+  },
+  "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/Sources/Views/Attendees/MultiExportSheet.swift": {
+    "dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/MultiExportSheet.d",
+    "object": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/MultiExportSheet.swift.o",
+    "swiftmodule": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/MultiExportSheet~partial.swiftmodule",
+    "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/MultiExportSheet.swiftdeps"
   },
   "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/Sources/Views/Attendees/StatusChangeSheet.swift": {
     "dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/StatusChangeSheet.d",
@@ -56,6 +104,24 @@
     "swiftmodule": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/CommandPaletteView~partial.swiftmodule",
     "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/CommandPaletteView.swiftdeps"
   },
+  "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/Sources/Views/Common/AppFooter.swift": {
+    "dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AppFooter.d",
+    "object": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AppFooter.swift.o",
+    "swiftmodule": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AppFooter~partial.swiftmodule",
+    "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AppFooter.swiftdeps"
+  },
+  "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/Sources/Views/Common/AppHeader.swift": {
+    "dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AppHeader.d",
+    "object": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AppHeader.swift.o",
+    "swiftmodule": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AppHeader~partial.swiftmodule",
+    "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AppHeader.swiftdeps"
+  },
+  "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/Sources/Views/Components/PublicRegistrationQRView.swift": {
+    "dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/PublicRegistrationQRView.d",
+    "object": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/PublicRegistrationQRView.swift.o",
+    "swiftmodule": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/PublicRegistrationQRView~partial.swiftmodule",
+    "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/PublicRegistrationQRView.swiftdeps"
+  },
   "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/Sources/Views/Components/States.swift": {
     "dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/States.d",
     "object": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/States.swift.o",
@@ -67,6 +133,12 @@
     "object": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/StatusChip.swift.o",
     "swiftmodule": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/StatusChip~partial.swiftmodule",
     "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/StatusChip.swiftdeps"
+  },
+  "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/Sources/Views/Components/TimezonePicker.swift": {
+    "dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/TimezonePicker.d",
+    "object": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/TimezonePicker.swift.o",
+    "swiftmodule": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/TimezonePicker~partial.swiftmodule",
+    "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/TimezonePicker.swiftdeps"
   },
   "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/Sources/Views/ContentView.swift": {
     "dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/ContentView.d",
@@ -80,17 +152,71 @@
     "swiftmodule": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/EventDetailView~partial.swiftmodule",
     "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/EventDetailView.swiftdeps"
   },
+  "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/Sources/Views/EventSettingsView.swift": {
+    "dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/EventSettingsView.d",
+    "object": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/EventSettingsView.swift.o",
+    "swiftmodule": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/EventSettingsView~partial.swiftmodule",
+    "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/EventSettingsView.swiftdeps"
+  },
+  "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/Sources/Views/Events/EventsListView.swift": {
+    "dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/EventsListView.d",
+    "object": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/EventsListView.swift.o",
+    "swiftmodule": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/EventsListView~partial.swiftmodule",
+    "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/EventsListView.swiftdeps"
+  },
+  "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/Sources/Views/Members/AddMemberSheet.swift": {
+    "dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AddMemberSheet.d",
+    "object": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AddMemberSheet.swift.o",
+    "swiftmodule": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AddMemberSheet~partial.swiftmodule",
+    "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AddMemberSheet.swiftdeps"
+  },
+  "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/Sources/Views/Members/AddToEventSheet.swift": {
+    "dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AddToEventSheet.d",
+    "object": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AddToEventSheet.swift.o",
+    "swiftmodule": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AddToEventSheet~partial.swiftmodule",
+    "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/AddToEventSheet.swiftdeps"
+  },
+  "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/Sources/Views/Members/MemberEventsCountView.swift": {
+    "dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/MemberEventsCountView.d",
+    "object": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/MemberEventsCountView.swift.o",
+    "swiftmodule": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/MemberEventsCountView~partial.swiftmodule",
+    "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/MemberEventsCountView.swiftdeps"
+  },
   "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/Sources/Views/Members/MemberProfileView.swift": {
     "dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/MemberProfileView.d",
     "object": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/MemberProfileView.swift.o",
     "swiftmodule": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/MemberProfileView~partial.swiftmodule",
     "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/MemberProfileView.swiftdeps"
   },
+  "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/Sources/Views/Members/MembersListView.swift": {
+    "dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/MembersListView.d",
+    "object": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/MembersListView.swift.o",
+    "swiftmodule": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/MembersListView~partial.swiftmodule",
+    "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/MembersListView.swiftdeps"
+  },
+  "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/Sources/Views/Members/MergeDuplicatesSheet.swift": {
+    "dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/MergeDuplicatesSheet.d",
+    "object": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/MergeDuplicatesSheet.swift.o",
+    "swiftmodule": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/MergeDuplicatesSheet~partial.swiftmodule",
+    "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/MergeDuplicatesSheet.swiftdeps"
+  },
+  "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/Sources/Views/Members/QuickMemberPopover.swift": {
+    "dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/QuickMemberPopover.d",
+    "object": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/QuickMemberPopover.swift.o",
+    "swiftmodule": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/QuickMemberPopover~partial.swiftmodule",
+    "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/QuickMemberPopover.swiftdeps"
+  },
   "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/Sources/Views/NewEventSheet.swift": {
     "dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/NewEventSheet.d",
     "object": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/NewEventSheet.swift.o",
     "swiftmodule": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/NewEventSheet~partial.swiftmodule",
     "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/NewEventSheet.swiftdeps"
+  },
+  "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/Sources/Views/PlaceholderView.swift": {
+    "dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/PlaceholderView.d",
+    "object": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/PlaceholderView.swift.o",
+    "swiftmodule": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/PlaceholderView~partial.swiftmodule",
+    "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/PlaceholderView.swiftdeps"
   },
   "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/Sources/Views/ReportsView.swift": {
     "dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/ReportsView.d",
@@ -103,5 +229,11 @@
     "object": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/SettingsView.swift.o",
     "swiftmodule": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/SettingsView~partial.swiftmodule",
     "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/SettingsView.swiftdeps"
+  },
+  "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/DerivedSources/resource_bundle_accessor.swift": {
+    "dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/resource_bundle_accessor.d",
+    "object": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/resource_bundle_accessor.swift.o",
+    "swiftmodule": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/resource_bundle_accessor~partial.swiftmodule",
+    "swift-dependencies": "/Users/VScode_Projects/projects/EventPlanner 2.0/apps/EventDeskProApp/.build/arm64-apple-macosx/debug/EventDeskProApp.build/resource_bundle_accessor.swiftdeps"
   }
 }

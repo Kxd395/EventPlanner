@@ -21,8 +21,13 @@ struct ContentView: View {
                 TopTabs(tab: $tab, showCommandPalette: $showCommandPalette, openLogs: openLogs)
                 Divider()
                 TabContent(tab: tab)
-                Divider()
-                AppFooter(version: appState.version)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            }
+            .safeAreaInset(edge: .bottom) {
+                VStack(spacing: 0) {
+                    Divider()
+                    AppFooter(version: appState.version)
+                }.background(.regularMaterial)
             }
             .sheet(isPresented: $showShortcuts) { ShortcutsOverlay().padding().frame(width: 420) }
             .sheet(isPresented: $showSettings) { SettingsView() }

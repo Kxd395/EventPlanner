@@ -20,9 +20,9 @@ struct AttendeeRow: View {
             Spacer()
             // Inline status controls per ASCII spec
             HStack(spacing: 6) {
-                statusButton(title: "Pre-Reg", code: "preregistered", color: EDPDesign.Status.preregistered)
+                statusButton(title: "Pre-Registered", code: "preregistered", color: EDPDesign.Status.preregistered)
                 statusButton(title: "Walk-in", code: "walkin", color: EDPDesign.Status.walkin)
-                statusButton(title: "✓ Check-In", code: "checkedin", color: EDPDesign.Status.checkedin)
+                statusButton(title: "Check-In", code: "checkedin", color: EDPDesign.Status.checkedin)
                 statusButton(title: "DNA", code: "dna", color: EDPDesign.Status.dna)
             }
             .font(.caption2)
@@ -45,12 +45,22 @@ struct AttendeeRow: View {
     private func statusButton(title: String, code: String, color: Color) -> some View {
         let isActive = attendee.status == code
         Button(action: { onChangeStatus?(code) }) {
-            Text(title)
-                .padding(.horizontal, 6).padding(.vertical, 3)
-                .background(isActive ? color.opacity(0.15) : Color.clear)
-                .foregroundColor(color)
-                .overlay(RoundedRectangle(cornerRadius: 6).stroke(color, lineWidth: isActive ? 2 : 1))
-                .cornerRadius(6)
+            HStack(spacing: 4) {
+                if isActive && code == "checkedin" {
+                    Image(systemName: "checkmark")
+                        .font(.caption2.weight(.bold))
+                }
+                Text(title)
+            }
+            .padding(.horizontal, 8)
+            .padding(.vertical, 4)
+            .background(isActive ? color.opacity(0.95) : color.opacity(0.07))
+            .foregroundColor(isActive ? .white : color.opacity(0.95))
+            .overlay(
+                RoundedRectangle(cornerRadius: 6)
+                    .stroke(color.opacity(isActive ? 0.0 : 0.7), lineWidth: isActive ? 0 : 1)
+            )
+            .cornerRadius(6)
         }
         .buttonStyle(.plain)
         .accessibilityLabel(Text("Set status: \(title)"))

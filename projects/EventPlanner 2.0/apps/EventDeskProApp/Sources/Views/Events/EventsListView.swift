@@ -69,6 +69,7 @@ struct EventsListView: View {
                                 Divider()
                                 Button("Delete", role: .destructive) {}
                             }
+                            .frame(maxHeight: .infinity)
                         }
                     } header: {
                         HStack {
@@ -79,22 +80,25 @@ struct EventsListView: View {
                             Text("Reg (%)").frame(width: 80, alignment: .trailing)
                             Spacer()
                         }.font(.caption).foregroundColor(.secondary)
+                    } footer: {
+                        HStack {
+                            Text("Bulk:")
+                            Button("Delete") {}
+                            Button("Duplicate") {}
+                            Button("Export CSV") {}
+                            Spacer()
+                            Text("Pagination: « Prev | 1 | 2 | 3 | Next » Rows per page: 25 ▼")
+                                .font(.caption).foregroundColor(.secondary)
+                        }.padding(.horizontal, 4)
                     }
                 }
                 // macOS SwiftUI does not support _defaultListRowSeparatorVisibility; relying on default separators
-                HStack {
-                    Text("Bulk:")
-                    Button("Delete") {}
-                    Button("Duplicate") {}
-                    Button("Export CSV") {}
-                    Spacer()
-                    Text("Pagination: « Prev | 1 | 2 | 3 | Next » Rows per page: 25 ▼")
-                        .font(.caption).foregroundColor(.secondary)
-                }.padding(.horizontal, 4)
             }
-        }
-        .padding(.horizontal, 16)
-        .padding(.bottom, 8)
+    }
+    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+    .padding(.horizontal, 16)
+    // let the scaffold/footer control bottom safe area; avoid extra bottom padding that can shift layout
+        
         .onAppear { load() }
         .onReceive(NotificationCenter.default.publisher(for: .edpEventsShouldRefresh)) { _ in
             load()

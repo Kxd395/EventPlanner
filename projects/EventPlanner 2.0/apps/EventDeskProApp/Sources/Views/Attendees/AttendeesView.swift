@@ -8,6 +8,7 @@ import EventDeskCoreBindings
 struct AttendeesView: View {
     let event: EDPCore.EventDTO
     var highlightId: String? = nil
+    @StateObject private var sync = RegistrationSyncService()
     @State private var attendees: [EDPCore.AttendeeDTO] = []
     @State private var counts: EDPCore.StatusCounts? = nil
     @State private var selectedStatus: StatusFilterBar.Status = .all
@@ -87,7 +88,7 @@ struct AttendeesView: View {
                 Picker("Sort", selection: $sortOption) { ForEach(SortOption.allCases, id: \.self) { Text($0.rawValue).tag($0) } }
                     .pickerStyle(.segmented)
                     .frame(maxWidth: 320)
-                if let c = counts { Text("Total: \(c.preregistered + c.walkin + c.checkedin + c.dna)").foregroundColor(.secondary) }
+                // Total count is shown in the filter bar; avoid duplication here
             }
 
             // Summary cards + status chips
@@ -145,6 +146,7 @@ struct AttendeesView: View {
                         }
                         .onAppear { applyInitialHighlight(proxy: proxy) }
                         .onChange(of: attendeesFiltered.count) { _ in applyInitialHighlight(proxy: proxy) }
+                        .frame(maxHeight: .infinity)
                     }
                     .listStyle(.inset)
                     .toolbar {
@@ -161,8 +163,10 @@ struct AttendeesView: View {
             }
             .animation(.default, value: attendeesFiltered.count)
         }
-        .padding(12)
-        .onAppear { load() }
+    .padding(12)
+    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .onAppear { load(); sync.start(eventId: event.id) }
+        .onDisappear { sync.stop() }
         .onChange(of: attendeesFiltered.count) { _ in
             // When list changes (first load), schedule highlight if requested
         }
