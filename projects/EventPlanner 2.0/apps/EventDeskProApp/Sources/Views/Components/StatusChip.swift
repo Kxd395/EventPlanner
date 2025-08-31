@@ -64,7 +64,7 @@ struct StatusFilterBar: View {
 
     var body: some View {
         HStack(spacing: 8) {
-            ForEach(Status.allCases) { s in
+            ForEach(Status.allCases, id: \.rawValue) { s in
                 let isSel = (s == selected)
                 Button(action: { set(s) }) {
                     Text(s.title)
@@ -80,13 +80,11 @@ struct StatusFilterBar: View {
                 .keyboardShortcut(keyFor(s))
                 .accessibilityLabel(Text(s.title))
                 .accessibilityAddTraits(isSel ? .isSelected : [])
-                .accessibilityRole(.tab)
             }
             Spacer()
             Text("Total: \(totalCount ?? 0)").foregroundStyle(.secondary)
         }
         .accessibilityElement(children: .contain)
-        .accessibilityRole(.tabGroup)
         .accessibilityLabel("Attendee filter")
     }
 
