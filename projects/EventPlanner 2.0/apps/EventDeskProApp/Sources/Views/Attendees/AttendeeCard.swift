@@ -15,6 +15,7 @@ struct AttendeeCard: View {
             // Identity line + status dot
             HStack(alignment: .firstTextBaseline) {
                 Text(attendee.name).font(.headline).lineLimit(1)
+                MemberBadges(isGlobalMember: !attendee.memberId.isEmpty)
                 Spacer()
                 Circle().fill(EDPDesign.color(for: attendee.status)).frame(width: 8, height: 8)
                 Menu(content: {
@@ -33,23 +34,30 @@ struct AttendeeCard: View {
             .font(.subheadline)
             .foregroundColor(.secondary)
 
-            // Status chips (interactive)
-            HStack(spacing: 6) {
-                statusChip(title: "Pre‑Registered", code: "preregistered", color: EDPDesign.Status.preregistered)
-                statusChip(title: "Walk‑in", code: "walkin", color: EDPDesign.Status.walkin)
-                statusChip(title: "✓ Checked‑In", code: "checkedin", color: EDPDesign.Status.checkedin)
-                statusChip(title: "DNA", code: "dna", color: EDPDesign.Status.dna)
+            // Status chips (interactive, exclusive selection)
+            if let cur = AttendanceStatus(code: attendee.status) {
+                AttendeeStatusChipGroup(current: cur) { next in
+                    onChangeStatus?(next.code)
+                }
+                .font(.caption2)
             }
-            .font(.caption2)
 
-            // Row actions
+            // Primary action varies by status
             HStack(spacing: 6) {
-                Button { onCheckIn?(attendee.attendeeId) } label: { Label("Check-In", systemImage: "checkmark") }
+                if attendee.status == "checkedin" {
+                    Button { onUndo?() } label: { Label("Undo Check-In", systemImage: "arrow.uturn.backward") }
+                        .buttonStyle(.bordered)
+                } else if attendee.status == "dna" {
+                    Button { onReset?(attendee.attendeeId) } label: { Label("Revert to Pre-Registered", systemImage: "arrow.uturn.backward") }
+                        .buttonStyle(.bordered)
+                } else {
+                    Button { onCheckIn?(attendee.attendeeId) } label: { Label("Check-In", systemImage: "checkmark") }
+                        .buttonStyle(.borderedProminent)
+                }
                 Button { if let e = attendee.email { onEmail?(e) } } label: { Label("Email", systemImage: "paperplane") }
                 Spacer()
                 Button(role: .destructive) { onRemove?(attendee.attendeeId) } label: { Label("Remove", systemImage: "trash") }
             }
-            .buttonStyle(.bordered)
         }
         .padding(12)
         .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 12))

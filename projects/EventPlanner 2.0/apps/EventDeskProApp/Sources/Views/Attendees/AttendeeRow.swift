@@ -14,7 +14,10 @@ struct AttendeeRow: View {
         HStack(spacing: 12) {
             Circle().fill(EDPDesign.color(for: attendee.status)).frame(width: 8, height: 8)
             VStack(alignment: .leading, spacing: 2) {
-                Text(attendee.name).font(.headline)
+                HStack(spacing: 6) {
+                    Text(attendee.name).font(.headline)
+                    MemberBadges(isGlobalMember: !attendee.memberId.isEmpty)
+                }
                 HStack(spacing: 8) {
                     if let email = attendee.email { Text(email).foregroundColor(.secondary).font(.caption) }
                     if let company = attendee.company { Text(company).foregroundColor(.secondary).font(.caption) }
