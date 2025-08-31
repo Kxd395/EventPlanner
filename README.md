@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # VScode Projects Workspace
 
 A clean development workspace for School Jefferson and related projects.
@@ -34,3 +35,6 @@ A clean development workspace for School Jefferson and related projects.
 - **Beast Mode 3.1**: Enhanced AI capabilities
 
 All MCP servers are configured in Claude Desktop and point to the DevTools directory.
+=======
+# EventPlanner-
+>>>>>>> 67fd7e74292bb2a6fe31858696ca4334f6b9738d
