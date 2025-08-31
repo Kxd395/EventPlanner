@@ -10,7 +10,7 @@
 // rusqlite = { version = "0.31", features = ["bundled"] }
 // uuid = { version = "1", features = ["v4"] }
 
-use axum::{routing::post, extract::{Path, State}, Json, Router};
+use axum::{routing::{post, get}, extract::{Path, State, Query}, Json, Router};
 use axum::http::StatusCode;
 use hmac::{Hmac, Mac};
 use serde::Deserialize;
@@ -122,6 +122,52 @@ async fn register(Path(event): Path<String>, State(st): State<AppState>, Json(r)
     })))
 }
 
+#[derive(Deserialize)]
+struct Since { since: Option<i64> }
+
+// GET /api/events/:id/registrations?since=<unix>
+// Returns minimal fields for polling-based sync.
+async fn registrations_since(Path(event): Path<String>, State(st): State<AppState>, Query(q): Query<Since>)
+    -> (StatusCode, Json<Value>)
+{
+    let since = q.since.unwrap_or(0);
+    let conn = match Connection::open(st.db_path.as_str()) {
+        Ok(c) => c,
+        Err(e) => return (StatusCode::INTERNAL_SERVER_ERROR, Json(json!({"error":"db_open_failed","detail":e.to_string()}))),
+    };
+    let mut stmt = match conn.prepare(
+        "SELECT m.email, m.first_name, m.last_name, m.company, a.updated_at
+         FROM attendees a JOIN members m ON m.id = a.member_id
+         WHERE a.event_id = ?1 AND a.status = 'preregistered' AND a.updated_at > datetime(?2,'unixepoch')
+         ORDER BY a.updated_at ASC"
+    ) {
+        Ok(s) => s,
+        Err(e) => return (StatusCode::INTERNAL_SERVER_ERROR, Json(json!({"error":"query_prep_failed","detail":e.to_string()}))),
+    };
+    let rows = stmt.query_map(params![&event, &since], |row| {
+        let email: String = row.get(0)?;
+        let first: String = row.get(1)?;
+        let last: String = row.get(2)?;
+        let company: Option<String> = row.get(3).ok();
+        let updated: String = row.get(4)?;
+        Ok(json!({
+            "email": email,
+            "first_name": first,
+            "last_name": last,
+            "company": company,
+            "updated_at": updated
+        }))
+    });
+    let mut out = vec![];
+    match rows {
+        Ok(iter) => {
+            for r in iter { if let Ok(v) = r { out.push(v); } }
+            (StatusCode::OK, Json(json!(out)))
+        }
+        Err(e) => (StatusCode::INTERNAL_SERVER_ERROR, Json(json!({"error":"query_failed","detail":e.to_string()})))
+    }
+}
+
 fn init_db(db_path: &str) -> anyhow::Result<()> {
     let conn = Connection::open(db_path)?;
     conn.execute_batch(
@@ -175,7 +221,7 @@ async fn main() -> anyhow::Result<()> {
 
     let st = AppState { db_path: Arc::new(db_path) };
     let app = Router::new()
-        .route("/api/events/:id/registrations", post(register))
+        .route("/api/events/:id/registrations", get(registrations_since).post(register))
         .with_state(st);
 
     axum::Server::bind(&"0.0.0.0:8787".parse().unwrap())

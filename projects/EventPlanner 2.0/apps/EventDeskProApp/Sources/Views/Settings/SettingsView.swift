@@ -6,6 +6,7 @@ struct SettingsView: View {
     @AppStorage("timezone") private var timezone: String = "UTC"
     @AppStorage("theme") private var theme: String = "system"
     @AppStorage("piiExportAllowed") private var piiExportAllowed: Bool = true
+    @AppStorage("apiBase") private var apiBase: String = ""
     @FocusState private var focusedField: Field?
     enum Field { case orgName, timezone }
 
@@ -23,6 +24,11 @@ struct SettingsView: View {
                         .frame(maxWidth: 280)
                 }
                 Toggle("Allow PII export (CSV/JSON)", isOn: $piiExportAllowed)
+            }
+            Section(header: Text("Integration")) {
+                TextField("API Base URL (e.g., https://api.eventdesk.pro)", text: $apiBase)
+                    .textFieldStyle(.roundedBorder)
+                    .help("Used by the app to pull new public registrations while the Attendees tab is open.")
             }
             Section {
                 HStack { Spacer(); Button("Close") { dismiss() }.keyboardShortcut(.cancelAction) }

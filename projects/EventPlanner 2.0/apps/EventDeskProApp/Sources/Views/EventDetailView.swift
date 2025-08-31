@@ -1,4 +1,5 @@
 import SwiftUI
+import Security
 import EventDeskCoreBindings
 
 struct EventDetailView: View {
@@ -146,21 +147,28 @@ private struct PublicRegistrationScaffold: View {
     }
 
     private func loadSecret() -> String? {
+        if let s = keychainGet(eventId: event.id) { return s }
+        // Fallback for older versions that used UserDefaults
         let key = "eventPublicSecret_\(event.id)"
         return UserDefaults.standard.string(forKey: key)
     }
 
     private func enable() {
         let s = generateSecret()
-        let key = "eventPublicSecret_\(event.id)"
-        UserDefaults.standard.set(s, forKey: key)
+        if !keychainSet(eventId: event.id, secret: s) {
+            // Fallback
+            let key = "eventPublicSecret_\(event.id)"
+            UserDefaults.standard.set(s, forKey: key)
+        }
         secret = s
     }
 
     private func regenerateSecret() {
         let s = generateSecret()
-        let key = "eventPublicSecret_\(event.id)"
-        UserDefaults.standard.set(s, forKey: key)
+        if !keychainSet(eventId: event.id, secret: s) {
+            let key = "eventPublicSecret_\(event.id)"
+            UserDefaults.standard.set(s, forKey: key)
+        }
         secret = s
     }
 
@@ -172,5 +180,43 @@ private struct PublicRegistrationScaffold: View {
             .replacingOccurrences(of: "+", with: "-")
             .replacingOccurrences(of: "/", with: "_")
             .replacingOccurrences(of: "=", with: "")
+    }
+
+    // MARK: - Keychain helpers
+    private func keychainGet(eventId: String) -> String? {
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: "com.eventdesk.public.secret",
+            kSecAttrAccount as String: eventId,
+            kSecReturnData as String: true,
+            kSecMatchLimit as String: kSecMatchLimitOne
+        ]
+        var result: CFTypeRef?
+        let status = SecItemCopyMatching(query as CFDictionary, &result)
+        if status == errSecSuccess, let data = result as? Data {
+            return String(data: data, encoding: .utf8)
+        }
+        return nil
+    }
+
+    @discardableResult
+    private func keychainSet(eventId: String, secret: String) -> Bool {
+        let data = Data(secret.utf8)
+        // Try update
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: "com.eventdesk.public.secret",
+            kSecAttrAccount as String: eventId
+        ]
+        let attrs: [String: Any] = [kSecValueData as String: data]
+        let updateStatus = SecItemUpdate(query as CFDictionary, attrs as CFDictionary)
+        if updateStatus == errSecSuccess { return true }
+        if updateStatus == errSecItemNotFound {
+            var add = query
+            add[kSecValueData as String] = data
+            let addStatus = SecItemAdd(add as CFDictionary, nil)
+            return addStatus == errSecSuccess
+        }
+        return false
     }
 }
