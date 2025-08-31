@@ -11,6 +11,7 @@
 // uuid = { version = "1", features = ["v4"] }
 
 use axum::{routing::{post, get}, extract::{Path, State, Query}, Json, Router};
+use axum::response::sse::{Sse, Event};
 use axum::http::StatusCode;
 use hmac::{Hmac, Mac};
 use serde::Deserialize;
@@ -21,9 +22,13 @@ use time::OffsetDateTime;
 use base64::{engine::general_purpose::URL_SAFE_NO_PAD, Engine as _};
 use rusqlite::{Connection, params};
 use uuid::Uuid;
+use tokio::sync::broadcast;
+use tokio_stream::wrappers::BroadcastStream;
+use futures_util::StreamExt;
+use std::convert::Infallible;
 
 #[derive(Clone)]
-struct AppState { db_path: Arc<String> }
+struct AppState { db_path: Arc<String>, tx: broadcast::Sender<String> }
 
 #[derive(Deserialize)]
 struct Reg {
@@ -114,6 +119,19 @@ async fn register(Path(event): Path<String>, State(st): State<AppState>, Json(r)
         aid
     };
 
+    // Broadcast SSE event for listeners of this event
+    let payload = json!({
+        "type": "registration",
+        "event_id": event,
+        "email": r.email,
+        "first_name": r.first_name,
+        "last_name": r.last_name,
+        "company": r.company,
+        "attendee_id": attendee_id,
+        "member_id": member_id
+    });
+    let _ = st.tx.send(payload.to_string());
+
     (StatusCode::CREATED, Json(json!({
         "status": "ok",
         "attendee_id": attendee_id,
@@ -168,6 +186,30 @@ async fn registrations_since(Path(event): Path<String>, State(st): State<AppStat
     }
 }
 
+// SSE stream of registration events for an event
+async fn registrations_stream(Path(event): Path<String>, State(st): State<AppState>)
+    -> Sse<impl futures_util::Stream<Item = Result<Event, Infallible>>>
+{
+    let rx = st.tx.subscribe();
+    let stream = BroadcastStream::new(rx).filter_map(move |msg| {
+        let event_id = event.clone();
+        async move {
+            match msg {
+                Ok(text) => {
+                    if let Ok(v) = serde_json::from_str::<serde_json::Value>(&text) {
+                        if v.get("event_id").and_then(|x| x.as_str()) == Some(event_id.as_str()) {
+                            return Some(Ok(Event::default().json_data(v).unwrap_or_else(|_| Event::default().data(text))));
+                        }
+                    }
+                    None
+                }
+                Err(_) => None
+            }
+        }
+    });
+    Sse::new(stream)
+}
+
 fn init_db(db_path: &str) -> anyhow::Result<()> {
     let conn = Connection::open(db_path)?;
     conn.execute_batch(
@@ -219,9 +261,11 @@ async fn main() -> anyhow::Result<()> {
         );
     }
 
-    let st = AppState { db_path: Arc::new(db_path) };
+    let (tx, _rx) = broadcast::channel(100);
+    let st = AppState { db_path: Arc::new(db_path), tx };
     let app = Router::new()
         .route("/api/events/:id/registrations", get(registrations_since).post(register))
+        .route("/api/events/:id/registrations/stream", get(registrations_stream))
         .with_state(st);
 
     axum::Server::bind(&"0.0.0.0:8787".parse().unwrap())

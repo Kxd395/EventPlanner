@@ -19,6 +19,10 @@ Signed URL format
 - Query: t=<HMAC-SHA256 base64url>, exp=<unix-seconds>
 - Message: "<eventId>|<exp>" signed with per-event secret
 
+Secret storage
+- Default (app): per-event secret is stored in the macOS Keychain (service: `com.eventdesk.public.secret`, account: `<eventId>`), with a safe fallback to UserDefaults key `eventPublicSecret_<eventId>` if Keychain writes fail.
+- Server (backend): persist the same secret in your DB (e.g., `events.public_secret`) and verify tokens server-side.
+
 Swift (generate link + QR)
 - See PublicRegistrationQRView.swift for drop-in code
 
@@ -45,8 +49,12 @@ Backend options
 - Serverless: replicate the same logic (token verify, upsert, link) on your platform of choice
 
 App updates
-- Poll every 10–15s for new registrations for the active event (or use push via WebSocket/SSE)
+- Poll every 10–15s for new registrations for the active event, or use push via SSE/WebSocket.
 - New rows appear as preregistered and increment counters
+
+Realtime (sample)
+- Polling: GET `/api/events/:id/registrations?since=<unix>` returns minimal rows (email, first_name, last_name, company)
+- Push: SSE at GET `/api/events/:id/registrations/stream` emits registration events as JSON; subscribe in the app to avoid polling.
 
 Security & abuse controls
 - Signed URL with TTL
@@ -59,4 +67,3 @@ Next steps (smallest slice)
 3) Stand up POST /registrations endpoint (verify token, write to DB)
 4) Add de-dupe (email/phone), status = preregistered
 5) App: poll updated registrations while event open
-

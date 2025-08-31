@@ -26,9 +26,27 @@ struct SettingsView: View {
                 Toggle("Allow PII export (CSV/JSON)", isOn: $piiExportAllowed)
             }
             Section(header: Text("Integration")) {
-                TextField("API Base URL (e.g., https://api.eventdesk.pro)", text: $apiBase)
-                    .textFieldStyle(.roundedBorder)
-                    .help("Used by the app to pull new public registrations while the Attendees tab is open.")
+                VStack(alignment: .leading, spacing: 6) {
+                    TextField("API Base URL (e.g., https://api.eventdesk.pro)", text: $apiBase)
+                        .textFieldStyle(.roundedBorder)
+                        .help("Used by the app to pull new public registrations while the Attendees tab is open.")
+                    if !apiBase.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && !apiBase.lowercased().hasPrefix("https://") {
+                        HStack(spacing: 8) {
+                            Image(systemName: "exclamationmark.triangle.fill").foregroundColor(.orange)
+                            Text("Must start with https://").foregroundColor(.secondary)
+                            Spacer()
+                            Button("Fix") {
+                                let trimmed = apiBase.trimmingCharacters(in: .whitespacesAndNewlines)
+                                if trimmed.lowercased().hasPrefix("http://") {
+                                    apiBase = "https://" + String(trimmed.dropFirst("http://".count))
+                                } else {
+                                    apiBase = "https://" + trimmed
+                                }
+                            }
+                        }
+                        .font(.caption)
+                    }
+                }
             }
             Section {
                 HStack { Spacer(); Button("Close") { dismiss() }.keyboardShortcut(.cancelAction) }

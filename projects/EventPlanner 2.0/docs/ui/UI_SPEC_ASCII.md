@@ -266,6 +266,44 @@ Pre-Reg → Confirmed → Checked-In
 
 ---
 
+## Layout Scaffold & Footer (Pinned)
+
+Goal
+- Footer remains glued to the window bottom; content/table owns remaining height; no drift when lists are short.
+
+Pattern
+- Use a scaffold that sets `content.frame(maxWidth: .infinity, maxHeight: .infinity)` and a `safeAreaInset(edge: .bottom)` for the footer so it never scrolls.
+
+Rules
+- Exactly one scroll surface: do not wrap `List`/`Table` in an outer `ScrollView`.
+- Avoid `Spacer()` inside scroll content.
+- `List`/`Table` must declare `.frame(maxHeight: .infinity)` to claim height.
+
+Example
+```
+struct AppScaffold<Header: View, Content: View, Footer: View>: View {
+  @ViewBuilder var header: () -> Header
+  @ViewBuilder var content: () -> Content
+  @ViewBuilder var footer: () -> Footer
+  var body: some View {
+    VStack(spacing: 0) {
+      header(); Divider()
+      content().frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+    }
+    .safeAreaInset(edge: .bottom) {
+      VStack(spacing: 0) { Divider(); footer().font(.footnote).padding(.vertical, 6).padding(.horizontal, 10) }
+      .background(.regularMaterial)
+    }
+  }
+}
+```
+
+Table sizing (macOS)
+- Name: `.width(min: 180, ideal: 240, max: .infinity)` grows
+- Date/Status/Counts: compact fixed ranges
+
+---
+
 ## Empty / Loading / Error States
 
 ```
